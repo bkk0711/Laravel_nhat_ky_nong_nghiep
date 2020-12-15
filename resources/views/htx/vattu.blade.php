@@ -1,6 +1,6 @@
-@extends('admin_layout')
+@extends('htx_layout')
 @section('title', 'Vật Tư')
-@section('admin_content')
+@section('HTX_content')
 <div class="row">
     <div class="col-md-12">
         <?php
@@ -27,7 +27,7 @@
                                                     </div>
 
       <div class="panel-body">
-      <form class="form-horizontal form-bordered striped-rows" action="{{URL::to('vattu')}}" method="post" enctype="multipart/form-data">
+      <form class="form-horizontal form-bordered striped-rows" action="{{URL::to('htx_vattu')}}" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
            <div class="form-group">
                <label class="col-sm-3 control-label">Tên vật tư</label>
@@ -61,21 +61,35 @@
            <div class="form-group">
                <label class="col-sm-3 control-label">Hoạt chất</label>
                <div class="col-sm-9">
-                 <input type="text" class="form-control" name="hoatchat">
+                 <textarea class="form-control" name="hoatchat" rows="2"></textarea>
                </div>
            </div>
            <div class="form-group last">
                <label class="col-sm-3 control-label">Đối tượng</label>
                <div class="col-sm-9">
-                 <input type="text" class="form-control" name="doituong">
+                   <textarea name="doituong" class="form-control" rows="2"></textarea>
+
                </div>
            </div>
            <div class="form-group last">
                <label class="col-sm-3 control-label">Hướng dẫn sử dụng</label>
                <div class="col-sm-9">
-                 <input type="text" class="form-control" name="hdsd">
+                <textarea class="form-control" name="hdsd" rows="2"></textarea>
                </div>
            </div>
+           <div class="form-group last">
+            <label class="col-sm-3 control-label">Đơn Vị</label>
+            <div class="col-sm-9">
+             <select name="donvi" class="form-control">
+
+             <option value="g">Gam</option>
+             <option value="ml">MiliLít</option>
+             <option value="kg">KilôGam</option>
+             <option value="l">Lít</option>
+
+             </select>
+            </div>
+        </div>
            <div class="form-group last">
                <label class="col-sm-3 control-label">Ảnh </label>
                <div class="col-sm-9">
@@ -124,15 +138,15 @@
                     @foreach ($vattu as $vt)
                     <tr>
                         <td>{{ $vt->id }}</td>
-                        <td><img src="{{URL::to('storage/app/'.$vt->img)  }}" width="50px"></td>
+                        <td><a href="{{URL::to('storage/app/'.$vt->img)  }}" target="_blank" rel="noopener noreferrer"><img src="{{URL::to('storage/app/'.$vt->img)  }}" width="80px"></a></td>
                         <td>{{ $vt->ten }}</td>
                         <td>{{ ($loai->where('id',$vt->loai))->first()->loai }}</td>
                         <td>{{ ($ncc->where('id',$vt->id_ncc))->first()->TenNCC }}</td>
                         <td>{{ $vt->hoat_chat }}</td>
                         <td>{{ $vt->doi_tuong }}</td>
                         <td>{{ $vt->hdsd }}</td>
-                    <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                    <td> <a class="btn btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a class="btn btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
 
                     </tr>

@@ -1,6 +1,6 @@
-@extends('admin_layout')
+@extends('htx_layout')
 @section('title', 'Nhà Cung Cấp Vật Tư')
-@section('admin_content')
+@section('HTX_content')
 <div class="row">
     <div class="col-md-12">
         <?php
@@ -19,7 +19,7 @@
           <h3 class="panel-title"> Thêm Nhà Cung Cấp Vật Tư</h3>
         </div>
         <div class="panel-body">
-          <form class="form-horizontal form-bordered striped-rows" method="POST" action="{{ URL::to('ncc_vattu') }}">
+          <form class="form-horizontal form-bordered striped-rows" method="POST" action="{{ URL::to('htx_ncc_vattu') }}">
 
            <div class="form-group">
                <label class="col-sm-3 control-label">Mã nhà cung cấp <font color="red"><small>(*)</small></font></label>
@@ -101,13 +101,14 @@
                         <td>{{ $nc->Website }}</td>
                         @if ($nc->id_user == 0)
                         <td>Admin</td>
+                        <td>Không thể thao tác</td>
                         @else
                         <td>{{ (DB::table('tbl_users')->where('id',$nc->id_user)->first())->name }}</td>
-                        @endif
-
                         <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
                             <a class="btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
+                        @endif
+
 
                     </tr>
                     @endforeach

@@ -1,6 +1,6 @@
-@extends('admin_layout')
+@extends('htx_layout')
 @section('title', 'Loại Vật Tư')
-@section('admin_content')
+@section('HTX_content')
 <div class="row">
     <div class="col-md-12">
         <?php
@@ -20,7 +20,7 @@
           <h3 class="panel-title"> Thêm Loại Vật Tư</h3>
         </div>
         <div class="panel-body">
-          <form class="form-horizontal striped-rows" method="POST" action="{{ URL::to('loai_vattu') }}">
+          <form class="form-horizontal striped-rows" method="POST" action="{{ URL::to('htx_loai_vattu') }}">
             {{csrf_field()}}
            <div class="form-group">
                <label class="col-sm-3 control-label">Loại Vật Tư</label>
@@ -32,30 +32,6 @@
            <div class="form-footer">
                  <button type="submit" class="btn btn-success waves-effect waves-light">
                      <i class="fa fa-check-square-o"></i> THÊM</button>
-             </div>
-
-         </form>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-
-          <h3 class="panel-title"> Import Loại Vật Tư</h3>
-        </div>
-        <div class="panel-body">
-          <form class="form-horizontal striped-rows" method="POST" action="{{ URL::to('import_loai_vattu') }}" enctype="multipart/form-data">
-            {{csrf_field()}}
-           <div class="form-group">
-               <label class="col-sm-3 control-label">Chọn File</label>
-               <div class="col-sm-9">
-                 <input type="file" class="form-control" name="file">
-               </div>
-           </div>
-
-           <div class="form-footer">
-                 <button type="submit" class="btn btn-success waves-effect waves-light">
-                     <i class="fa fa-check-square-o"></i> IMPORT</button>
              </div>
 
          </form>
@@ -76,6 +52,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Loại vật tư</th>
+                        <th>Người thêm</th>
                         <th> Hành động</th>
                     </tr>
                 </thead>
@@ -85,8 +62,16 @@
                     <tr>
                         <td>{{ $lvt->id }}</td>
                         <td>{{ $lvt->loai }}</td>
-                        <td> <a class="btn-sm btn-danger" href="{{URL::to('del_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            </a></td>
+                        @if ($lvt->id_user == 0)
+                        <td>Admin</td>
+                        <td>Không thể thao tác</td>
+                        @else
+                        <td>{{ (DB::table('tbl_users')->where('id',$lvt->id_user)->first())->name }}</td>
+                        <td> <a class="btn-sm btn-danger" href="{{URL::to('xoa_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                        </a>
+                    </td>
+                        @endif
+
 
                     </tr>
                     @endforeach

@@ -5,10 +5,6 @@
           header('location: '.URL::to("/").'');
           exit();
         }
-        if ($user->role != 1) {
-            header('location: '.URL::to("/dashboard").'');
-          exit();
-        }
 
   ?>
 <!DOCTYPE html>
@@ -39,6 +35,24 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('public/assets/js/waves.js') }}"></script>
+        <script src="{{ asset('public/assets/js/jquery.nicescroll.js') }}"></script>
+        <script src="{{ asset('public/assets/js/app-script.js') }}"></script>
+    <!--Data Tables -->
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js') }}"></script>
+         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js') }}"></script>
     </head>
 
     <body>
@@ -72,7 +86,7 @@
                                     <li><a href="{{ URL::to('logout') }}"><i class="icon-power"></i>Logout</a></li>
                                 </ul>
                             </div>
-                            <p class="designation m-0">Admin</p>
+                            <p class="designation m-0">Nông Dân</p>
                         </div>
                     </div>
                     <ul class="sidebar-menu">
@@ -83,23 +97,14 @@
                       </li>
                       <li class="treeview">
                         <a href="index.html" class="waves-effect">
-                        <i class="ti-package"></i> <span>Vật tư nông nghiệp</span> <i class="fa fa-angle-left pull-right"></i>
+                        <i class="fa fa-book"></i> <span>Nhật Ký</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                          <li><a href="{{ URL::to('ncc_vattu') }}"><i class="fa fa-circle-o"></i> NCC Vật Tư</a></li>
-                          <li><a href="{{ URL::to('loai_vattu') }}"><i class="fa fa-circle-o"></i> Loại Vật Tư</a></li>
-                          <li><a href="{{ URL::to('vattu') }}"><i class="fa fa-circle-o"></i> Danh Sách Vật Tư</a></li>
+                          <li><a href="{{ URL::to('ncc_vattu') }}"><i class="fa fa-circle-o"></i> Nhật Ký HTX</a></li>
+
                         </ul>
                       </li>
-                      <li class="treeview">
-                        <a href="index.html" class="waves-effect">
-                        <i class="icon-home"></i> <span>Hợp Tác Xã</span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                        <li><a href="{{URL::to('ds_htx')}}"><i class="fa fa-circle-o"></i> Danh sách</a></li>
-                        <li><a href="{{URL::to('chu_nhiem')}}"><i class="fa fa-circle-o"></i>Chủ Nhiệm HTX </a></li>
-                        </ul>
-                      </li>
+
 
 
                     </ul>
@@ -149,7 +154,7 @@
 			   <!-- End Page Breadcrumb -->
 
                  <!--Main Page Content Start Here-->
-                 @yield('admin_content')
+                 @yield('nongdan_content')
                  <!--End Page Content Start Here-->
 
                     </div> <!-- container -->
@@ -171,11 +176,7 @@
         </script>
 
         <!-- Main  Scripts-->
-        <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('public/assets/js/waves.js') }}"></script>
-        <script src="{{ asset('public/assets/js/jquery.nicescroll.js') }}"></script>
-        <script src="{{ asset('public/assets/js/app-script.js') }}"></script>
+
         <script>
           $('.sidebar-menu').SidebarNav();
           $(".do-nicescrol").niceScroll({
@@ -184,19 +185,7 @@
             cursorborder:"0px solid rgba(45, 53, 60, 0.3)",
            });
         </script>
-		<!--Data Tables -->
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.bootstrap.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.keyTable.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.bootstrap.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/jszip.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/pdfmake.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/vfs_fonts.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.html5.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.print.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js') }}"></script>
-              <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js') }}"></script>
+
               <script>
                 $(document).ready(function() {
 
