@@ -14,7 +14,7 @@
 
         }
         ?>
-      <div class="panel panel-default">
+      {{-- <div class="panel panel-default">
         <div class="panel-heading">
 
           <h3 class="panel-title"> Thêm Loại Vật Tư</h3>
@@ -63,7 +63,7 @@
       </div>
 
 
-    </div>
+    </div> --}}
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -76,7 +76,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Loại vật tư</th>
-                        <th> Hành động</th>
+                        <th>Hợp tác xã</th>
+                        {{-- <th> Hành động</th> --}}
                     </tr>
                 </thead>
 
@@ -85,8 +86,13 @@
                     <tr>
                         <td>{{ $lvt->id }}</td>
                         <td>{{ $lvt->loai }}</td>
-                        <td> <a class="btn-sm btn-danger" href="{{URL::to('del_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            </a></td>
+                        @if ($lvt->id_htx == 0)
+                        <td>Admin</td>
+                        @else
+                        <td>{{ (DB::table('tbl_htx')->where('id',$lvt->id_htx)->first())->ten }}</td>
+                        @endif
+                        {{-- <td> <a class="btn-sm btn-danger" href="{{URL::to('del_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a> --}}
+                            {{-- </a></td> --}}
 
                     </tr>
                     @endforeach
@@ -98,5 +104,5 @@
         </div>
         </div>
     </div>
-  </div>
+</div></div>
 @endsection

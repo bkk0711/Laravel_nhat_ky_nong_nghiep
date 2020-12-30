@@ -17,6 +17,7 @@
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}">
     <!--Bootstrap Css-->
     <link href="{{ asset('public/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('public/assets/plugins/date-time-pickers/css/flatpicker-airbnb.css')}}" rel="stylesheet" type="text/css"/>
     <!--Main Style Css-->
     <link href="{{ asset('public/assets/css/style.css')}}" rel="stylesheet" type="text/css"/>
     <!--Responsive Css-->
@@ -24,6 +25,7 @@
     <!--Icons Css-->
     <link href="{{ asset('public/assets/css/icons.css')}}" rel="stylesheet" type="text/css"/>
     <script src="{{ asset('public/assets/js/modernizr.min.js')}}"></script>
+
      <!--Data Tables -->
      <link href="{{ asset('public/assets/plugins/bootstrap-datatable/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css">
      <link href="{{ asset('public/assets/plugins/bootstrap-datatable/css/buttons.bootstrap.min.css') }}" rel="stylesheet" type="text/css">
@@ -40,6 +42,9 @@
         <script src="{{ asset('public/assets/js/waves.js') }}"></script>
         <script src="{{ asset('public/assets/js/jquery.nicescroll.js') }}"></script>
         <script src="{{ asset('public/assets/js/app-script.js') }}"></script>
+        <!--Date & Time Picker-->
+		<script src="{{ asset('public/assets/plugins/date-time-pickers/js/flatpickr.js') }}"></script>
+        <script src="{{ asset('public/assets/plugins/date-time-pickers/js/date-time-picker-script.js') }}"></script>
     <!--Data Tables -->
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.bootstrap.min.js') }}"></script>
@@ -52,7 +57,7 @@
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js') }}"></script>
-         <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js') }}"></script>
     </head>
 
     <body>
@@ -96,7 +101,7 @@
                         </a>
                       </li>
                       <li class="treeview">
-                        <a href="index.html" class="waves-effect">
+                        <a href="#" class="waves-effect">
                         <i class="icon-home"></i> <span>Quản lý thành viên</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -105,7 +110,7 @@
                         </ul>
                       </li>
                       <li class="treeview">
-                        <a href="index.html" class="waves-effect">
+                        <a href="#" class="waves-effect">
                         <i class="ti-package"></i> <span>Vật tư nông nghiệp</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -115,16 +120,29 @@
                           <li><a href="{{ URL::to('htx_xuat_vattu') }}"><i class="fa fa-circle-o"></i> Xuất Vật Tư</a></li>
                         </ul>
                       </li>
-
                       <li class="treeview">
-                        <a href="index.html" class="waves-effect">
-                        <i class="fa fa-book"></i> <span>Nhật Ký</span> <i class="fa fa-angle-left pull-right"></i>
+                        <a href="#" class="waves-effect">
+                        <i class="ti-package"></i> <span>Quản lý giống </span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                          <li><a href="{{ URL::to('ncc_vattu') }}"><i class="fa fa-circle-o"></i> Nhật Ký HTX</a></li>
+                          <li><a href="{{URL::to('giong')}}"><i class="fa fa-circle-o"></i> Thêm giống lúa</a></li>
+                          <li><a href="{{URL::to('xuat_giong')}}"><i class="fa fa-circle-o"></i> Xuất lúa giống</a></li>
 
                         </ul>
                       </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('mua_vu')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span>Quản lý mùa vụ</span>
+                        </a>
+                      </li>
+
+
+                      {{-- <li class="treeview">
+                        <a href="{{URL::to('thua')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span>Quản lý thừa</span>
+                        </a>
+                      </li> --}}
+
 
 
 
@@ -209,7 +227,8 @@
 
               <script>
                 $(document).ready(function() {
-
+                    $("#batdau").flatpickr();
+                    $("#ketthuc").flatpickr();
                     //buttons data tables
                     $('#data-buttons').DataTable( {
                     dom: 'Bfrtip',

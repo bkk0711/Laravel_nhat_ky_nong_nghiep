@@ -77,17 +77,17 @@
                 <textarea class="form-control" name="hdsd" rows="2"></textarea>
                </div>
            </div>
-           <div class="form-group last">
-            <label class="col-sm-3 control-label">Đơn Vị</label>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Số lượng</label>
             <div class="col-sm-9">
-             <select name="donvi" class="form-control">
-
-             <option value="g">Gam</option>
-             <option value="ml">MiliLít</option>
-             <option value="kg">KilôGam</option>
-             <option value="l">Lít</option>
-
-             </select>
+              <input type="number" class="form-control"  name="so_luong" min="1">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Đơn giá</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control"  name="don_gia" step="0.1" min="1">
             </div>
         </div>
            <div class="form-group last">
@@ -130,6 +130,8 @@
                         <th>Hoạt Chất</th>
                         <th>Đối Tượng</th>
                         <th>HDSD</th>
+                        <th>Giá</th>
+                        <th>Tồn</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -138,15 +140,22 @@
                     @foreach ($vattu as $vt)
                     <tr>
                         <td>{{ $vt->id }}</td>
+                        @if ($vt->img)
                         <td><a href="{{URL::to('storage/app/'.$vt->img)  }}" target="_blank" rel="noopener noreferrer"><img src="{{URL::to('storage/app/'.$vt->img)  }}" width="80px"></a></td>
-                        <td>{{ $vt->ten }}</td>
+
+                        @else
+                           <td>No IMG</td>
+                        @endif
+                         <td>{{ $vt->ten }}</td>
                         <td>{{ ($loai->where('id',$vt->loai))->first()->loai }}</td>
                         <td>{{ ($ncc->where('id',$vt->id_ncc))->first()->TenNCC }}</td>
                         <td>{{ $vt->hoat_chat }}</td>
                         <td>{{ $vt->doi_tuong }}</td>
                         <td>{{ $vt->hdsd }}</td>
-                    <td> <a class="btn btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                        <td>{{ number_format($vt->don_gia) }} VNĐ</td>
+                        <td>{{ number_format($vt->so_luong) }}</td>
+                    <td> <a class="btn btn-sm btn-danger" href="{{URL::to('xoa_vattu/'.$vt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a class="btn btn-sm btn-warning" href="{{URL::to('htx_vattu/'.$vt->id)}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
 
                     </tr>

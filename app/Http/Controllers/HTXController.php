@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\importvt;
+use Illuminate\Support\Facades\Redirect;
 
 session_start();
 class HTXController extends Controller
@@ -120,23 +121,29 @@ class HTXController extends Controller
     {
         $admin = Session::get('admin');
         $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $loai = DB::table('tbl_loai_vattu')->get();
         $ncc = DB::table('tbl_nccvt')->get();
-        $vattu = DB::table('tbl_vattu')->where('id_user', $user->id)->get();
+        $vattu = DB::table('tbl_vattu')->where('id_htx', $htx->id)->get();
         return view('htx.vattu')->with('loai', $loai)->with('ncc', $ncc)->with('vattu', $vattu);
     }
 
     public function loai_vattu()
     {
-        $loai = DB::table('tbl_loai_vattu')->get();
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $loai = DB::table('tbl_loai_vattu')->where('id_htx', $htx->id)->get();
         return view('htx.loai_vattu')->with('loai', $loai);
 
     }
 
     public function ncc_vattu()
     {
-
-        $ncc = DB::table('tbl_nccvt')->get();
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $ncc = DB::table('tbl_nccvt')->where('id_htx', $htx->id)->get();
         return view('htx.ncc_vattu')->with('ncc', $ncc);
 
     }
@@ -144,6 +151,7 @@ class HTXController extends Controller
     {
         $admin = Session::get('admin');
         $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $ten = $request->ten;
         $loai = $request->loai;
         $ncc = $request->ncc;
@@ -168,9 +176,10 @@ class HTXController extends Controller
         $data['hdsd']= isset($hdsd) ? $hdsd : '';
         $data['img']= isset($img) ? $img : '';
         $data['ngay_nhap']= time();
-        $data['donvi']= $request->donvi;
-        $data['id_user']= $user->id;
-        $check = DB::table('tbl_vattu')->where('ten', $ten)->where('id_user', $user->id)->count();
+        $data['id_htx']= $htx->id;
+        $data['so_luong'] = $request->so_luong;
+        $data['don_gia'] = $request->don_gia;
+        $check = DB::table('tbl_vattu')->where('ten', $ten)->where('id_htx', $htx->id)->count();
         if($check == 0){
             DB::table('tbl_vattu')->insert($data);
             Session::put('message', 'Thêm Thành Công');
@@ -180,14 +189,77 @@ class HTXController extends Controller
 
         return redirect('htx_vattu');
     }
+    public function p_edit_vattu(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+
+        $ten = $request->ten;
+        $loai = $request->loai;
+        $ncc = $request->ncc;
+        $hoatchat = $request->hoatchat;
+        $doituong = $request->doituong;
+        $hdsd = $request->hdsd;
+        $check = DB::table('tbl_vattu')->where('id', $request->id)->where('id_htx', $htx->id)->count();
+        $checku = DB::table('tbl_vattu')->where('id', $request->id)->first();
+        if($check == 0 || ($checku->id_htx != $htx->id) ){
+            return redirect('htx_vattu');
+
+        }else{
+
+
+        $data = array();
+        $data['ten'] = isset($ten) ? $ten : '';
+        $data['loai'] = isset($loai) ? $loai : '';
+        $data['id_ncc']= isset($ncc) ? $ncc : '';
+        $data['hoat_chat']= isset($hoatchat) ? $hoatchat : '';
+        $data['doi_tuong']= isset($doituong) ? $doituong : '';
+        $data['hdsd']= isset($hdsd) ? $hdsd : '';
+        if(!empty($request->image)){
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $data['img'] = Storage::put('images', $request->image);
+
+        }
+
+        $data['ngay_nhap']= time();
+        $data['so_luong'] = $request->so_luong;
+        $data['don_gia'] = $request->don_gia;
+            DB::table('tbl_vattu')->where('id', $request->id)->update($data);
+            Session::put('message', 'Sửa Thành Công');
+
+
+        return redirect('htx_vattu');
+    }
+    }
+    public function edit_vattu($id)
+    {
+
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $loai = DB::table('tbl_loai_vattu')->get();
+        $ncc = DB::table('tbl_nccvt')->get();
+        $vattu = DB::table('tbl_vattu')->where('id', $id)->first();
+        $check = DB::table('tbl_vattu')->where('id', $id)->where('id_htx', $htx->id)->count();
+        if($check == 0 || ( $vattu->id_htx != $htx->id) ){
+            return redirect('htx_vattu');
+
+        }else{
+        return view('htx.edit_vattu')->with('loai', $loai)->with('ncc', $ncc)->with('vattu', $vattu);
+        }
+    }
     public function add_loai_vattu(Request $request)
     {
         $admin = Session::get('admin');
         $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $loai = $request->loai;
         $data = array();
         $data['loai'] = $loai;
-        $data['id_user'] = $user->id;
+        $data['id_htx'] = $htx->id;
         $check = DB::table('tbl_loai_vattu')->where('loai', $loai)->count();
         if($check == 0){
             DB::table('tbl_loai_vattu')->insert($data);
@@ -199,10 +271,29 @@ class HTXController extends Controller
         return redirect('htx_loai_vattu');
     }
 
+    public function xoa_vattu($id)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $check = DB::table('tbl_vattu')->where('id',$id)->first();
+        if( $check->id_htx != $htx->id ){
+            Session::put('message', 'Không thể xóa');
+        }else{
+            DB::table('tbl_vattu')->where('id', $id)->delete();
+            Session::put('message', 'Xóa Thành Công');
+        }
+
+        return redirect('htx_vattu');
+    }
+
     public function del_loai_vattu($id)
     {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $check = DB::table('tbl_loai_vattu')->where('id',$id)->first();
-        if( $check->id_user == 0 ){
+        if( $check->id_htx != $htx->id  ){
             Session::put('message', 'Không thể xóa');
         }else{
             DB::table('tbl_loai_vattu')->where('id', $id)->delete();
@@ -216,6 +307,7 @@ class HTXController extends Controller
     {
         $admin = Session::get('admin');
         $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $mancc = $request->ma_ncc;
         $tenncc = $request->ten_ncc;
         $diachi = $request->diachi;
@@ -229,7 +321,7 @@ class HTXController extends Controller
         $data['SDT'] = isset($sdt) ? $sdt : '';
         $data['Email'] = isset($email) ? $email : '';
         $data['Website'] = isset($web) ? $web : '';
-        $data['id_user'] = $user->id;
+        $data['id_htx'] = $htx->id;
         $check = DB::table('tbl_nccvt')->where('MaNCC', $mancc)->count();
         if($check == 0){
             DB::table('tbl_nccvt')->insert($data);
@@ -239,5 +331,285 @@ class HTXController extends Controller
         }
         return redirect('htx_ncc_vattu');
     }
+
+    public function xuat_vat_tu()
+    {
+
+        $ncc = DB::table('tbl_nccvt')->get();
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $g_htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->get();
+        // return view('htx.ds_member')->with('total', $total);
+        $vattu = DB::table('tbl_vattu')->where('id_htx', $htx->id)->get();
+        $x_vattu = DB::table('tbl_xuat_vattu')->where('id_htx', $htx->id)->get();
+        return view('htx.xuat_vat_tu')->with('ncc', $ncc)->with('htx', $g_htx)->with('vat_tu', $vattu)->with('x_vattu', $x_vattu);
+
+    }
+    public function p_xuat_vat_tu(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $vattu =  $request->vat_tu;
+        $so_luong = $request->so_luong;
+        $nongdan = $request->nongdan;
+        if($vattu !='' && $so_luong !='' && $nongdan !=''){
+            $check = DB::table('tbl_vattu')->where('id', $vattu)->first();
+            if(($check->so_luong-$so_luong) < 0 || $so_luong < 0){
+                Session::put('message', 'Số lượng vật tư không đủ');
+            }else{
+
+                if(DB::table('tbl_xuat_vattu')->where('id_vattu', $vattu)->where('id_nongdan', $nongdan)->count() > 0){
+                    $kt = DB::table('tbl_xuat_vattu')->where('id_vattu', $vattu)->where('id_nongdan', $nongdan)->first();
+                    $data = array();
+                $data['id_vattu'] =  $vattu;
+                $data['id_nongdan'] = $nongdan;
+                $data['so_luong'] = $so_luong + $kt->so_luong;
+
+                    DB::table('tbl_xuat_vattu')->where('id_vattu', $vattu)->where('id_nongdan', $nongdan)->update($data);
+                    $xuat = $kt->id;
+                }else{
+                    $data = array();
+                $data['id_vattu'] =  $vattu;
+                $data['id_nongdan'] = $nongdan;
+                $data['so_luong'] = $so_luong;
+                $data['thoi_gian'] = time();
+                $data['id_htx'] = $htx->id;
+
+                    $xuat = DB::table('tbl_xuat_vattu')->insertGetId($data);
+
+                }
+
+                $d = array();
+                $d['id_xuat'] = $xuat;
+                $d['so_luong'] = $so_luong;
+                $d['time'] =  time();
+
+                DB::table('tbl_log_xuat_vattu')->insert($d);
+
+                $update  = array();
+                $update['so_luong'] = $check->so_luong-$so_luong;
+                DB::table('tbl_vattu')->where('id', $check->id)->update($update);
+                Session::put('message', 'Xuất vật tư thành công');
+            }
+
+        }else{
+            Session::put('message', 'Vui lòng điền đủ thông tin');
+        }
+
+        return redirect('htx_xuat_vattu');
+
+    }
+
+    public function mua_vu()
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $mua_vu = DB::table('tbl_mua_vu')->where('id_htx', $htx->id)->get();
+        return view('htx.mua_vu')->with('mua_vu', $mua_vu);
+
+    }
+
+    public function p_mua_vu(Request $request)
+    {
+        $ten = $request->ten;
+        $bat_dau = $request->batdau;
+        $ket_thuc = $request->ketthuc;
+        if(isset($ten) && isset($bat_dau) && isset($ket_thuc)){
+            if(strtotime($bat_dau) < strtotime($ket_thuc)){
+                $admin = Session::get('admin');
+                $user = DB::table('tbl_users')->where('username', $admin)->first();
+                $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+                $check = DB::table('tbl_mua_vu')->where('bat_dau', $bat_dau)->where('ket_thuc', $ket_thuc)->where('id_htx', $htx->id)->count();
+                    if($check == 0){
+
+                        $data = array();
+                        $data['ten'] = $ten;
+                        $data['bat_dau'] = $bat_dau;
+                        $data['ket_thuc'] = $ket_thuc;
+                        $data['xong'] = 0;
+                        $data['id_htx'] = $htx->id;
+                        DB::table('tbl_mua_vu')->insert($data);
+                        Session::put('message', 'Thêm thành công ');
+                    }else{
+                        Session::put('message', 'Đã tồn tại');
+                    }
+
+            }else{
+                Session::put('message', 'Thời gian không hợp lệ');
+            }
+
+        }else{
+            Session::put('message', 'Vui lòng điền đủ thông tin');
+        }
+        return redirect('mua_vu');
+
+    }
+    public function giong()
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $giong = DB::table('tbl_giong')->where('id_htx', $htx->id)->get();
+
+
+        return view('htx.giong')->with('giong', $giong);
+
+    }
+    public function p_giong(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $ten = $request->ten;
+        $nguon_goc = $request->nguon_goc;
+        $don_gia = $request->don_gia;
+        $so_luong = $request->so_luong;
+
+        $check = DB::table('tbl_giong')->where('ten', $ten)->where('nguon_goc', $nguon_goc)->where('id_htx', $htx->id)->count();
+        if(isset($ten) && isset($nguon_goc) && isset($don_gia) && isset($so_luong) ){
+            if($check == 0){
+                $data = array();
+                $data['ten'] = $ten;
+                $data['nguon_goc'] = $nguon_goc;
+                $data['don_gia'] = $don_gia;
+                $data['so_luong'] = $so_luong;
+                $data['id_htx'] = $htx->id;
+                DB::table('tbl_giong')->insert($data);
+                Session::put('message', 'Thêm thành công ');
+            }else{
+                Session::put('message', 'Đã tồn tại');
+            }
+
+        }else{
+            Session::put('message', 'Vui lòng điền đủ thông tin');
+        }
+
+        return redirect('giong');
+
+    }
+
+    public function thua()
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->get();
+        $id_htx = DB::table('tbl_htx')->select('id')->where('chu_nhiem', $user->id)->get();
+        $data = array();
+        foreach($id_htx as $id){
+            array_push($data, $id->id);
+
+        }
+        // $data= json_decode( json_encode($data), true);
+        // print_r($data);
+        // dd($data);
+        $thua = DB::table('tbl_thua')->whereIn('id_htx', $data)->get();
+        // dd($thua);
+        // dd($thua);
+        return view('htx.thua')->with('htx', $htx)->with('thua', $thua);
+
+    }
+    public function p_thua(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $id_user = $request->id_user;
+        $id_htx = $request->id_htx;
+        $dien_tich = $request->dien_tich;
+        if(isset($id_user) && isset($id_htx) && isset($dien_tich)){
+
+                $data = array();
+                $data['id_user'] = $id_user;
+                $data['id_htx'] = $id_htx;
+                $data['dien_tich'] = $dien_tich;
+                DB::table('tbl_thua')->insert($data);
+                Session::put('message', 'Thêm thành công ');
+
+        }else{
+            Session::put('message', 'Vui lòng điền đủ thông tin');
+        }
+
+        return redirect('thua');
+
+    }
+    public function xuat_giong()
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $g_htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->get();
+        $total = $g_htx->count();
+        // return view('htx.ds_member')->with('total', $total);
+        $giong = DB::table('tbl_giong')->where('id_htx', $htx->id)->get();
+        $x_giong = DB::table('tbl_xuat_giong')->where('id_htx', $htx->id)->get();
+        return view('htx.xuat_giong')->with('htx', $g_htx)->with('giong', $giong)->with('x_giong', $x_giong);
+
+    }
+    public function p_xuat_giong(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $giong =  $request->giong;
+        $so_luong = $request->so_luong;
+        $nongdan = $request->nongdan;
+
+        if($giong !='' && $so_luong !='' && $nongdan !=''){
+            $check = DB::table('tbl_giong')->where('id', $giong)->first();
+            if(($check->so_luong-$so_luong) < 0 || $so_luong < 0){
+                Session::put('message', 'Số lượng vật tư không đủ');
+            }else{
+                if(DB::table('tbl_xuat_giong')->where('id_giong', $giong)->where('id_nongdan', $nongdan)->count() > 0){
+                    $kt = DB::table('tbl_xuat_giong')->where('id_giong', $giong)->where('id_nongdan', $nongdan)->first();
+                    $data = array();
+                $data['id_giong'] =  $giong;
+                $data['id_nongdan'] = $nongdan;
+                $data['so_luong'] = $so_luong + $kt->so_luong;
+
+                    DB::table('tbl_xuat_giong')->where('id_giong', $giong)->where('id_nongdan', $nongdan)->update($data);
+                    $xuat = $kt->id;
+                }else{
+                    $data = array();
+                $data['id_giong'] =  $giong;
+                $data['id_nongdan'] = $nongdan;
+                $data['so_luong'] = $so_luong;
+                $data['thoi_gian'] = time();
+                $data['id_htx'] = $htx->id;
+
+                    $xuat = DB::table('tbl_xuat_giong')->insertGetId($data);
+
+                }
+
+                $d = array();
+                $d['id_xuat'] = $xuat;
+                $d['so_luong'] = $so_luong;
+                $d['time'] =  time();
+
+                DB::table('tbl_log_xuat_giong')->insert($d);
+
+
+                // $data = array();
+                // $data['id_giong'] =  $giong;
+                // $data['id_nongdan'] = $nongdan;
+                // $data['so_luong'] = $so_luong;
+                // $data['thoi_gian'] = time();
+                // $data['id_htx'] = $htx->id;
+                // DB::table('tbl_xuat_giong')->insert($data);
+                $update  = array();
+                $update['so_luong'] = $check->so_luong-$so_luong;
+                DB::table('tbl_giong')->where('id', $check->id)->update($update);
+                Session::put('message', 'Xuất vật tư thành công');
+            }
+
+        }else{
+            Session::put('message', 'Vui lòng điền đủ thông tin');
+        }
+
+        return redirect('xuat_giong');
+
+    }
+
 
 }

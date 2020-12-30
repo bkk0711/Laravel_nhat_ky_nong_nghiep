@@ -62,11 +62,11 @@
                     <tr>
                         <td>{{ $lvt->id }}</td>
                         <td>{{ $lvt->loai }}</td>
-                        @if ($lvt->id_user == 0)
+                        @if ($lvt->id_htx == 0)
                         <td>Admin</td>
                         <td>Không thể thao tác</td>
                         @else
-                        <td>{{ (DB::table('tbl_users')->where('id',$lvt->id_user)->first())->name }}</td>
+                        <td>{{ (DB::table('tbl_htx')->where('id',$lvt->id_htx)->first())->ten }}</td>
                         <td> <a class="btn-sm btn-danger" href="{{URL::to('xoa_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
                         </a>
                     </td>

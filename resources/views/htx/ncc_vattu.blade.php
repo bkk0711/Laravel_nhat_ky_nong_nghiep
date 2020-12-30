@@ -99,13 +99,13 @@
                         <td>{{ $nc->SDT }}</td>
                         <td>{{ $nc->Email }}</td>
                         <td>{{ $nc->Website }}</td>
-                        @if ($nc->id_user == 0)
+                        @if ($nc->id_htx == 0)
                         <td>Admin</td>
                         <td>Không thể thao tác</td>
                         @else
-                        <td>{{ (DB::table('tbl_users')->where('id',$nc->id_user)->first())->name }}</td>
-                        <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                        <td>{{ (DB::table('tbl_htx')->where('id',$nc->id_htx)->first())->ten }}</td>
+                        <td> <a class="btn btn-xs btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a class="btn btn-xs btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
                         @endif
 

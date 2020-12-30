@@ -14,7 +14,7 @@
 
         }
         ?>
-      <div class="panel panel-default">
+      {{-- <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"> Thêm Nhà Cung Cấp Vật Tư</h3>
         </div>
@@ -66,7 +66,7 @@
          </form>
         </div>
       </div>
-    </div>
+    </div> --}}
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -99,10 +99,10 @@
                         <td>{{ $nc->SDT }}</td>
                         <td>{{ $nc->Email }}</td>
                         <td>{{ $nc->Website }}</td>
-                        @if ($nc->id_user == 0)
+                        @if ($nc->id_htx == 0)
                         <td>Admin</td>
                         @else
-                        <td>{{ (DB::table('tbl_users')->where('id',$nc->id_user)->first())->name }}</td>
+                        <td>{{ (DB::table('tbl_htx')->where('id',$nc->id_htx)->first())->ten }}</td>
                         @endif
 
                         <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>

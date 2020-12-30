@@ -17,6 +17,7 @@
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png')}}">
     <!--Bootstrap Css-->
     <link href="{{ asset('public/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('public/assets/plugins/date-time-pickers/css/flatpicker-airbnb.css')}}" rel="stylesheet" type="text/css"/>
     <!--Main Style Css-->
     <link href="{{ asset('public/assets/css/style.css')}}" rel="stylesheet" type="text/css"/>
     <!--Responsive Css-->
@@ -40,6 +41,9 @@
         <script src="{{ asset('public/assets/js/waves.js') }}"></script>
         <script src="{{ asset('public/assets/js/jquery.nicescroll.js') }}"></script>
         <script src="{{ asset('public/assets/js/app-script.js') }}"></script>
+         <!--Date & Time Picker-->
+		<script src="{{ asset('public/assets/plugins/date-time-pickers/js/flatpickr.js') }}"></script>
+        <script src="{{ asset('public/assets/plugins/date-time-pickers/js/date-time-picker-script.js') }}"></script>
     <!--Data Tables -->
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/bootstrap-datatable/js/dataTables.bootstrap.min.js') }}"></script>
@@ -96,14 +100,26 @@
                         </a>
                       </li>
                       <li class="treeview">
-                        <a href="index.html" class="waves-effect">
-                        <i class="fa fa-book"></i> <span>Nhật Ký</span> <i class="fa fa-angle-left pull-right"></i>
+                        <a href="{{URL::to('lam_dat')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span>Nhật ký làm đất</span>
                         </a>
-                        <ul class="treeview-menu">
-                          <li><a href="{{ URL::to('ncc_vattu') }}"><i class="fa fa-circle-o"></i> Nhật Ký HTX</a></li>
-
-                        </ul>
                       </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('xuong_giong')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span>Nhật ký xuống giống</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('nhan_vat_tu')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span>Nhật ký nhận vật tư</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('su_dung_vat_tu')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span>Nhật ký sử dụng vật tư</span>
+                        </a>
+                      </li>
+
 
 
 
@@ -191,6 +207,17 @@
 
                     //buttons data tables
                     $('#data-buttons').DataTable( {
+                    dom: 'Bfrtip',
+                    responsive: true,
+                        buttons: [
+                            'copyHtml5',
+                            'excelHtml5',
+                            'csvHtml5',
+                            'pdfHtml5'
+
+                        ]
+                    } );
+                    $('#data0').DataTable( {
                     dom: 'Bfrtip',
                     responsive: true,
                         buttons: [

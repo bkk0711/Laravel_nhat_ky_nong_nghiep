@@ -15,8 +15,8 @@
         }
         ?>
     <!-- Large modal -->
-    <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#large-model">Thêm Vật tư</button>
-    <hr/>
+    {{-- <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#large-model">Thêm Vật tư</button> --}}
+    {{-- <hr/> --}}
     <!-- Modal dialog-->
                                         <div id ="large-model" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none">
                                             <div class="modal-dialog modal-lg">
@@ -116,7 +116,8 @@
                         <th>Hoạt Chất</th>
                         <th>Đối Tượng</th>
                         <th>HDSD</th>
-                        <th>Hành động</th>
+                        <th>HTX</th>
+
                     </tr>
                 </thead>
 
@@ -124,16 +125,26 @@
                     @foreach ($vattu as $vt)
                     <tr>
                         <td>{{ $vt->id }}</td>
-                        <td><img src="{{URL::to('storage/app/'.$vt->img)  }}" width="50px"></td>
-                        <td>{{ $vt->ten }}</td>
+                        @if ($vt->img)
+                        <td><a href="{{URL::to('storage/app/'.$vt->img)  }}" target="_blank" rel="noopener noreferrer"><img src="{{URL::to('storage/app/'.$vt->img)  }}" width="80px"></a></td>
+
+                        @else
+                           <td>No IMG</td>
+                        @endif<td>{{ $vt->ten }}</td>
                         <td>{{ ($loai->where('id',$vt->loai))->first()->loai }}</td>
                         <td>{{ ($ncc->where('id',$vt->id_ncc))->first()->TenNCC }}</td>
                         <td>{{ $vt->hoat_chat }}</td>
                         <td>{{ $vt->doi_tuong }}</td>
                         <td>{{ $vt->hdsd }}</td>
-                    <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                        <td>
+                            <?php
+                            $h = DB::table('tbl_htx')->where('id', $vt->id_htx)->first();
+                            ?>
+                            {{$h->ten}}
+                        </td>
+                    {{-- <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
                             <a class="btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
-                            </a></td>
+                            </a></td> --}}
 
                     </tr>
                     @endforeach

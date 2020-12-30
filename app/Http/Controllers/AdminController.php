@@ -15,11 +15,13 @@ class AdminController extends Controller
         if(isset($admin)){
            $user = DB::table('tbl_users')->where('username', $admin)->first();
            if($user->role == 1){
-            return view('admin.dashboard')->with('user', $user);
+            return view('admin.dashboard')->with('user', $user->id);
            }else if($user->role == 2){
-            return view('htx.dashboard')->with('user', $user);
+            $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+            return view('htx.dashboard')->with('user', $user->id)->with('htx', $htx->id);
            }else{
-            return view('nongdan.dashboard')->with('user', $user);
+
+            return view('nongdan.dashboard')->with('user', $user->id);
            }
 
         }else{

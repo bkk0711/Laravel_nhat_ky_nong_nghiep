@@ -23,7 +23,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-close"></i></button>
-                        <h4 class="modal-title" id="myLargeModalLabel">Thêm Vật Tư</h4>
+                        <h4 class="modal-title" id="myLargeModalLabel">Thêm Hợp Tác Xã</h4>
                     </div>
 
       <div class="panel-body">
