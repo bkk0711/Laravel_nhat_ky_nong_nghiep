@@ -91,18 +91,23 @@
                         <th>Tên đăng nhập</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
+                        <th>Hợp tác xã</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach ($user as $value)
+                    <?php
+                    $h = DB::table('tbl_htx')->where('chu_nhiem', $value->id)->first();
+                    ?>
                     <tr>
                         <td>{{$value->id}}</td>
                         <td>{{$value->name}}</td>
                         <td>{{$value->username}}</td>
                         <td>{{$value->email}}</td>
                         <td>{{$value->sdt}}</td>
+                        <td>{{$h->ten}}</td>
                         <td><a href="#" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>
                             <a href="#" class="btn-sm btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i></a></a>
                         </td>

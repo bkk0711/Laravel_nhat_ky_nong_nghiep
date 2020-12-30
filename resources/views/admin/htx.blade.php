@@ -47,7 +47,13 @@
                <div class="col-sm-9">
                 <select name="cn" class="form-control">
                     @foreach ($chu_nhiem as $cn)
-                        <option value="{{$cn->id}}">{{$cn->name}}</option>
+                    <?php
+                    $h = DB::table('tbl_htx')->where('chu_nhiem', $cn->id)->count();
+                    ?>
+                    @if ($h == 0)
+                    <option value="{{$cn->id}}">{{$cn->name}}</option>
+                    @endif
+
                     @endforeach
 
                 </select>
