@@ -29,7 +29,7 @@ Session::put('message', null);
             <label class="col-sm-3 control-label">Giống lúa </label>
             <div class="col-sm-9">
             <select name="giong" id="" class="form-control">
-                @foreach ($giong as $g)
+                @foreach ($giongs as $g)
                 <?php
                 $gl = DB::table('tbl_giong')->where('id', $g->id_giong)->first();
                 ?>

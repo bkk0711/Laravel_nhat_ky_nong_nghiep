@@ -127,7 +127,6 @@
                         <td>{{ $vt->id }}</td>
                         @if ($vt->img)
                         <td><a href="{{URL::to('storage/app/'.$vt->img)  }}" target="_blank" rel="noopener noreferrer"><img src="{{URL::to('storage/app/'.$vt->img)  }}" width="80px"></a></td>
-
                         @else
                            <td>No IMG</td>
                         @endif<td>{{ $vt->ten }}</td>

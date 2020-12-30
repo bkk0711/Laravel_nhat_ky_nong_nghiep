@@ -49,10 +49,11 @@ class HTXController extends Controller
         if(isset($tk)){
             $check_r = DB::table('tbl_users')->where('username', $tk)->first();
             $check = DB::table('tbl_users')->where('username', $tk)->count();
-            if($check_r->role < 3){
-                Session::put('message', 'Người dùng không hợp lệ');
-            }else{
+
                 if($check == 1){
+                    if($check_r->role < 3){
+                        Session::put('message', 'Người dùng không hợp lệ');
+                    }else{
                     $check_htx =  DB::table('tbl_htx_member')->where('id_user', $check_r->id)->where('id_htx', $htx)->count();
                     if($check_htx == 0){
                         $d = array();
@@ -63,11 +64,11 @@ class HTXController extends Controller
                     }else{
                         Session::put('message', 'Thông tin đã tồn tại trên hệ thống');
                     }
-
+                }
                 }else{
                     Session::put('message', 'Người dùng không hợp lệ');
                 }
-            }
+
         }else if(isset($user) && isset($pass)){
             $check = DB::table('tbl_users')->where('username', $user)->count();
             if($check == 0){
@@ -122,7 +123,7 @@ class HTXController extends Controller
         $admin = Session::get('admin');
         $user = DB::table('tbl_users')->where('username', $admin)->first();
         $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
-        $loai = DB::table('tbl_loai_vattu')->get();
+        $loai = DB::table('tbl_loai_vattu')->where('id_htx', $htx->id)->get();
         $ncc = DB::table('tbl_nccvt')->get();
         $vattu = DB::table('tbl_vattu')->where('id_htx', $htx->id)->get();
         return view('htx.vattu')->with('loai', $loai)->with('ncc', $ncc)->with('vattu', $vattu);
