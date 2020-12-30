@@ -107,7 +107,12 @@
                         <td>{{$value->username}}</td>
                         <td>{{$value->email}}</td>
                         <td>{{$value->sdt}}</td>
+                        @if($h)
                         <td>{{$h->ten}}</td>
+                        @else
+                        <td>Chưa thêm vào HTX</td>
+                        @endif
+
                         <td><a href="#" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>
                             <a href="#" class="btn-sm btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i></a></a>
                         </td>

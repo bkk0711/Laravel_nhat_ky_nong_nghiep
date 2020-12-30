@@ -116,8 +116,8 @@
                     <td>{{($chu_nhiem->where('id',$h->chu_nhiem)->first())->name}}</td>
                     <td>{{$h->dia_chi}}</td>
                     <td>{{$h->so_dien_thoai}}</td>
-                    <td><a href="#" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>
-                        <a href="#" class="btn-sm btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i></a></a>
+                    <td><a href="{{URL::to('edit_htx/'.$h->id)}}" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>
+                        <a href="{{URL::to('del_htx/'.$h->id)}}" class="btn-sm btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i></a></a>
                     </td>
                 </tr>
                 @endforeach

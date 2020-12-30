@@ -85,7 +85,7 @@
                         <th>Email</th>
                         <th>Website</th>
                         <th>Người thêm</th>
-                        <th>Hành động</th>
+
                     </tr>
                 </thead>
 
@@ -105,9 +105,7 @@
                         <td>{{ (DB::table('tbl_htx')->where('id',$nc->id_htx)->first())->ten }}</td>
                         @endif
 
-                        <td> <a class="btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
-                            </a></td>
+
 
                     </tr>
                     @endforeach

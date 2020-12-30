@@ -25,6 +25,9 @@ Route::get('/', function () {
 Route::post('login', [AdminController::class, 'checklogin']);
 Route::get('dashboard', [AdminController::class, 'dashboard']);
 Route::get('logout', [AdminController::class, 'logout']);
+Route::get('edit_htx/{id}', [AdminController::class, 'edit_htx']);
+Route::get('del_htx/{id}', [AdminController::class, 'x_htx']);
+Route::post('edit_htx', [AdminController::class, 'p_edit_htx']);
 
 Route::get('vattu', [AdminController::class, 'vattu']);
 Route::post('vattu', [AdminController::class, 'addvattu']);
@@ -37,6 +40,9 @@ Route::get('ds_htx', [AdminController::class, 'ds_htx']);
 Route::post('ds_htx', [AdminController::class, 'p_htx']);
 Route::get('chu_nhiem', [AdminController::class, 'chu_nhiem']);
 Route::post('chu_nhiem', [AdminController::class, 'p_chu_nhiem']);
+
+Route::get('edit_chu_nhiem', [AdminController::class, 'edit_chu_nhiem']);
+Route::post('edit_chu_nhiem', [AdminController::class, 'p_edit_chu_nhiem']);
 
 // HTX
 Route::post('import_loai_vattu', [HTXController::class, 'import_loai_vattu']);
