@@ -88,8 +88,8 @@
                         <td>{{number_format($g->don_gia)}} VNĐ</td>
                         <td>{{number_format($g->so_luong)}} KG</td>
                         <td>
-                            <a class="btn btn-sm btn-danger" href="{{URL::to('xoa_vattu')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn btn-sm btn-warning" href="{{URL::to('htx_vattu')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                            <a class="btn btn-sm btn-danger" href="{{URL::to('x_giong/'.$g->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a class="btn btn-sm btn-warning" href="{{URL::to('edit_giong/'.$g->id)}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                         </td>
                     </tr>
                     @endforeach

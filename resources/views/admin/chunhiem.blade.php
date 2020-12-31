@@ -113,8 +113,8 @@
                         <td>Chưa thêm vào HTX</td>
                         @endif
 
-                        <td><a href="#" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>
-                            <a href="#" class="btn-sm btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i></a></a>
+                        <td><a href="{{URL::to('edit_chu_nhiem/'.$value->id)}}" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>
+                            <a href="{{URL::to('x_chu_nhiem/'.$value->id)}}" class="btn-sm btn-danger"><i class="fa fa-window-close" aria-hidden="true"></i></a></a>
                         </td>
                     </tr>
                     @endforeach

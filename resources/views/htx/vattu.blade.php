@@ -147,8 +147,17 @@
                            <td>No IMG</td>
                         @endif
                          <td>{{ $vt->ten }}</td>
-                        <td>{{ ($loai->where('id',$vt->loai))->first()->loai }}</td>
+                         @if ($loai->where('id',$vt->loai)->first() )
+                         <td>{{ ($loai->where('id',$vt->loai))->first()->loai }}</td>
+                        @else
+                        <td>Chưa phân loại</td>
+                        @endif
+                        @if ($ncc->where('id',$vt->id_ncc)->first())
                         <td>{{ ($ncc->where('id',$vt->id_ncc))->first()->TenNCC }}</td>
+                        @else
+                        <td>Chưa rõ nhà cung cấp</td>
+                        @endif
+
                         <td>{{ $vt->hoat_chat }}</td>
                         <td>{{ $vt->doi_tuong }}</td>
                         <td>{{ $vt->hdsd }}</td>

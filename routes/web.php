@@ -41,15 +41,25 @@ Route::post('ds_htx', [AdminController::class, 'p_htx']);
 Route::get('chu_nhiem', [AdminController::class, 'chu_nhiem']);
 Route::post('chu_nhiem', [AdminController::class, 'p_chu_nhiem']);
 
-Route::get('edit_chu_nhiem', [AdminController::class, 'edit_chu_nhiem']);
+Route::get('edit_chu_nhiem/{id}', [AdminController::class, 'edit_chu_nhiem']);
+Route::get('x_chu_nhiem/{id}', [AdminController::class, 'x_chu_nhiem']);
 Route::post('edit_chu_nhiem', [AdminController::class, 'p_edit_chu_nhiem']);
 
+Route::get('ds_nong_dan', [AdminController::class, 'ds_nong_dan']);
+Route::get('edit_nong_dan/{id}', [AdminController::class, 'edit_nong_dan']);
+Route::get('x_nong_dan/{id}', [AdminController::class, 'x_nong_dan']);
+Route::post('edit_nong_dan', [AdminController::class, 'p_edit_nong_dan']);
+Route::get('ds_giong', [AdminController::class, 'ds_giong']);
 // HTX
 Route::post('import_loai_vattu', [HTXController::class, 'import_loai_vattu']);
 
 Route::get('add_member', [HTXController::class, 'add_member']);
 Route::post('add_member', [HTXController::class, 'p_add_member']);
 Route::get('ds_member', [HTXController::class, 'ds_member']);
+
+Route::get('edit_member/{id}', [HTXController::class, 'edit_member']);
+Route::post('edit_member', [HTXController::class, 'p_edit_member']);
+Route::get('x_member/{id}', [HTXController::class, 'x_member']);
 
 Route::get('htx_vattu', [HTXController::class, 'vattu']);
 Route::post('htx_vattu', [HTXController::class, 'addvattu']);
@@ -75,6 +85,16 @@ Route::get('htx_xuat_vattu', [HTXController::class, 'xuat_vat_tu']);
 Route::post('htx_xuat_vattu', [HTXController::class, 'p_xuat_vat_tu']);
 Route::get('xuat_giong', [HTXController::class, 'xuat_giong']);
 Route::post('xuat_giong', [HTXController::class, 'p_xuat_giong']);
+
+Route::post('edit_htx_ncc_vattu', [HTXController::class, 'p_edit_ncc_vattu']);
+Route::get('edit_htx_ncc_vattu/{id}', [HTXController::class, 'edit_ncc_vattu']);
+Route::get('x_htx_ncc_vattu/{id}', [HTXController::class, 'x_htx_ncc_vattu']);
+
+
+Route::post('edit_giong', [HTXController::class, 'p_edit_giong']);
+Route::get('edit_giong/{id}', [HTXController::class, 'edit_giong']);
+Route::get('x_giong/{id}', [HTXController::class, 'x_giong']);
+
 
 // Nong dan
 Route::get('nhan_vat_tu', [NongDanController::class, 'nhan_vat_tu']);

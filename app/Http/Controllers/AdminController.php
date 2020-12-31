@@ -307,5 +307,134 @@ class AdminController extends Controller
         return redirect('ds_htx');
 
     }
+    public function edit_chu_nhiem($id)
+    {
+        $chu_nhiem = DB::table('tbl_users')->where('id', $id)->first();
+        return view('admin.edit_chu_nhiem')->with('chu_nhiem', $chu_nhiem);
+
+    }
+    public function x_chu_nhiem($id)
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        if($users->role == 1){
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        if($check > 0){
+            DB::table('tbl_users')->where('id', $id)->delete();
+            $d = array();
+            $d['chu_nhiem'] = null;
+            DB::table('tbl_htx')->where('chu_nhiem', $id)->update($d);
+            Session::put('message', 'Xoá thành công');
+        }else{
+            Session::put('message', 'Người dùng không tồn tại');
+        }
+    }else{
+        Session::put('message', 'bạn không có quyền xóa');
+    }
+        return redirect('chu_nhiem');
+
+    }
+    public function p_edit_chu_nhiem(Request $request)
+    {
+        $name = $request->ten;
+        $user = $request->user;
+        $pass = $request->pass;
+        $email = $request->email;
+        $sdt = $request->phone;
+        $id = $request->id;
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        if($users->role == 1){
+        if($check > 0){
+            $data = array();
+            $data['name'] = $name;
+            $data['username'] = $user;
+            $data['email'] = $email;
+            $data['sdt'] = $sdt;
+            if($pass){
+                $data['password'] = md5($pass);
+            }
+            DB::table('tbl_users')->where('id', $id)->update($data);
+            Session::put('message', 'Cập nhật thành công');
+        }else{
+            Session::put('message', 'Không hợp lệ');
+
+        }
+    }else{
+        Session::put('message', 'bạn không có quyền chỉnh sửa');
+    }
+        return redirect('chu_nhiem');
+    }
+    public function ds_nong_dan()
+    {
+        $nd = DB::table('tbl_users')->where('role', 3)->get();
+        return view('admin.ds_nong_dan')->with('nongdan', $nd);
+
+    }
+    public function edit_nong_dan($id)
+    {
+        $nd = DB::table('tbl_users')->where('id', $id)->first();
+        return view('admin.edit_nong_dan')->with('nd', $nd);
+
+    }
+    public function x_nong_dan($id)
+    {
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        if($users->role == 1){
+        if($check > 0){
+            DB::table('tbl_users')->where('id', $id)->delete();
+            DB::table('tbl_htx_member')->where('id_user', $id)->delete();
+            Session::put('message', 'Xoá thành công');
+        }else{
+            Session::put('message', 'Người dùng không tồn tại');
+        }
+    }else{
+        Session::put('message', 'bạn không có quyền xóa');
+    }
+        return redirect('ds_nong_dan');
+
+    }
+    public function p_edit_nong_dan(Request $request)
+    {
+        $name = $request->ten;
+        $user = $request->user;
+        $pass = $request->pass;
+        $email = $request->email;
+        $sdt = $request->phone;
+        $id = $request->id;
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        if($users->role == 1){
+        if($check > 0){
+            $data = array();
+            $data['name'] = $name;
+            $data['username'] = $user;
+            $data['email'] = $email;
+            $data['sdt'] = $sdt;
+            if($pass){
+                $data['password'] = md5($pass);
+            }
+            DB::table('tbl_users')->where('id', $id)->update($data);
+            Session::put('message', 'Cập nhật thành công');
+        }else{
+            Session::put('message', 'Không hợp lệ');
+
+        }
+    }else{
+        Session::put('message', 'bạn không có quyền chỉnh sửa');
+    }
+        return redirect('ds_nong_dan');
+    }
+
+    public function ds_giong()
+    {
+        $giong = DB::table('tbl_giong')->get();
+        return view('admin.ds_giong')->with('giong', $giong);
+
+    }
 
 }

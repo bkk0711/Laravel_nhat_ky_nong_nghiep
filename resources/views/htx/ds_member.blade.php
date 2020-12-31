@@ -82,8 +82,8 @@ Session::put('message', null);
                 <td>{{ $u_htx->username }}</td>
                 <td>{{ $u_htx->email }}</td>
                 <td>{{ $u_htx->sdt }}</td>
-                 <td> <a class="btn btn-sm btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn btn-sm btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                 <td> <a class="btn btn-sm btn-danger" href="{{URL::to('x_member/'.$u->id_user)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a class="btn btn-sm btn-warning" href="{{URL::to('edit_member/'.$u->id_user)}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
 
             </tr>

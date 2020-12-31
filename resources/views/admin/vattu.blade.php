@@ -116,6 +116,8 @@
                         <th>Hoạt Chất</th>
                         <th>Đối Tượng</th>
                         <th>HDSD</th>
+                        <th>Số lượng </th>
+                        <th>Đơn Giá</th>
                         <th>HTX</th>
 
                     </tr>
@@ -130,11 +132,21 @@
                         @else
                            <td>No IMG</td>
                         @endif<td>{{ $vt->ten }}</td>
+                        @if ($loai->where('id',$vt->loai)->first() )
                         <td>{{ ($loai->where('id',$vt->loai))->first()->loai }}</td>
-                        <td>{{ ($ncc->where('id',$vt->id_ncc))->first()->TenNCC }}</td>
+                       @else
+                       <td>Chưa phân loại</td>
+                       @endif
+                       @if ($ncc->where('id',$vt->id_ncc)->first())
+                       <td>{{ ($ncc->where('id',$vt->id_ncc))->first()->TenNCC }}</td>
+                       @else
+                       <td>Chưa rõ nhà cung cấp</td>
+                       @endif
                         <td>{{ $vt->hoat_chat }}</td>
                         <td>{{ $vt->doi_tuong }}</td>
                         <td>{{ $vt->hdsd }}</td>
+                        <td>{{ number_format($vt->so_luong) }} Kg</td>
+                        <td>{{ number_format($vt->don_gia) }} VNĐ</td>
                         <td>
                             <?php
                             $h = DB::table('tbl_htx')->where('id', $vt->id_htx)->first();

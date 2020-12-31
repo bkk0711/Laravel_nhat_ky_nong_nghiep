@@ -113,7 +113,11 @@
                     <td>{{$h->id}}</td>
                     <td>{{$h->ten}}</td>
                     <td>{{$h->ma_so_thue}}</td>
+                    @if ($chu_nhiem->where('id',$h->chu_nhiem)->first())->name)
                     <td>{{($chu_nhiem->where('id',$h->chu_nhiem)->first())->name}}</td>
+                    @else
+                        <td>Chưa có chủ nhiệm</td>
+                    @endif
                     <td>{{$h->dia_chi}}</td>
                     <td>{{$h->so_dien_thoai}}</td>
                     <td><a href="{{URL::to('edit_htx/'.$h->id)}}" class="btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></a>

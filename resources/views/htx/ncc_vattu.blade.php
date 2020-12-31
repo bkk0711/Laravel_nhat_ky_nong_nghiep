@@ -104,8 +104,8 @@
                         <td>Không thể thao tác</td>
                         @else
                         <td>{{ (DB::table('tbl_htx')->where('id',$nc->id_htx)->first())->ten }}</td>
-                        <td> <a class="btn btn-xs btn-danger" href="{{URL::to('')}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn btn-xs btn-warning" href="{{URL::to('')}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                        <td> <a class="btn btn-xs btn-danger" href="{{URL::to('x_htx_ncc_vattu/'.$nc->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a class="btn btn-xs btn-warning" href="{{URL::to('edit_htx_ncc_vattu/'.$nc->id)}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
                         @endif
 

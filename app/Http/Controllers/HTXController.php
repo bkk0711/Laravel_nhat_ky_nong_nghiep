@@ -124,7 +124,7 @@ class HTXController extends Controller
         $user = DB::table('tbl_users')->where('username', $admin)->first();
         $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $loai = DB::table('tbl_loai_vattu')->where('id_htx', $htx->id)->get();
-        $ncc = DB::table('tbl_nccvt')->get();
+        $ncc = DB::table('tbl_nccvt')->where('id_htx', $htx->id)->get();
         $vattu = DB::table('tbl_vattu')->where('id_htx', $htx->id)->get();
         return view('htx.vattu')->with('loai', $loai)->with('ncc', $ncc)->with('vattu', $vattu);
     }
@@ -202,6 +202,7 @@ class HTXController extends Controller
         $hoatchat = $request->hoatchat;
         $doituong = $request->doituong;
         $hdsd = $request->hdsd;
+        if($ten !='' && $loai !='' && $ncc !='' ){
         $check = DB::table('tbl_vattu')->where('id', $request->id)->where('id_htx', $htx->id)->count();
         $checku = DB::table('tbl_vattu')->where('id', $request->id)->first();
         if($check == 0 || ($checku->id_htx != $htx->id) ){
@@ -211,12 +212,12 @@ class HTXController extends Controller
 
 
         $data = array();
-        $data['ten'] = isset($ten) ? $ten : '';
-        $data['loai'] = isset($loai) ? $loai : '';
-        $data['id_ncc']= isset($ncc) ? $ncc : '';
-        $data['hoat_chat']= isset($hoatchat) ? $hoatchat : '';
-        $data['doi_tuong']= isset($doituong) ? $doituong : '';
-        $data['hdsd']= isset($hdsd) ? $hdsd : '';
+        $data['ten'] = isset($ten) ? $ten : null;
+        $data['loai'] = isset($loai) ? $loai : null;
+        $data['id_ncc']= isset($ncc) ? $ncc : null;
+        $data['hoat_chat']= isset($hoatchat) ? $hoatchat : null;
+        $data['doi_tuong']= isset($doituong) ? $doituong : null;
+        $data['hdsd']= isset($hdsd) ? $hdsd : null;
         if(!empty($request->image)){
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -232,8 +233,13 @@ class HTXController extends Controller
             Session::put('message', 'Sửa Thành Công');
 
 
-        return redirect('htx_vattu');
+            return redirect('htx_vattu');
     }
+    }else{
+        return redirect('htx_vattu');
+        Session::put('message', 'điền đầy đủ nội dung');
+    }
+
     }
     public function edit_vattu($id)
     {
@@ -241,8 +247,8 @@ class HTXController extends Controller
         $admin = Session::get('admin');
         $user = DB::table('tbl_users')->where('username', $admin)->first();
         $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
-        $loai = DB::table('tbl_loai_vattu')->get();
-        $ncc = DB::table('tbl_nccvt')->get();
+        $loai = DB::table('tbl_loai_vattu')->where('id_htx', $htx->id)->get();
+        $ncc = DB::table('tbl_nccvt')->where('id_htx', $htx->id)->get();
         $vattu = DB::table('tbl_vattu')->where('id', $id)->first();
         $check = DB::table('tbl_vattu')->where('id', $id)->where('id_htx', $htx->id)->count();
         if($check == 0 || ( $vattu->id_htx != $htx->id) ){
@@ -261,7 +267,7 @@ class HTXController extends Controller
         $data = array();
         $data['loai'] = $loai;
         $data['id_htx'] = $htx->id;
-        $check = DB::table('tbl_loai_vattu')->where('loai', $loai)->count();
+        $check = DB::table('tbl_loai_vattu')->where('loai', $loai)->where('id_htx', $htx->id)->count();
         if($check == 0){
             DB::table('tbl_loai_vattu')->insert($data);
             Session::put('message', 'Thêm Thành Công');
@@ -281,6 +287,12 @@ class HTXController extends Controller
         if( $check->id_htx != $htx->id ){
             Session::put('message', 'Không thể xóa');
         }else{
+            DB::table('tbl_log_vattu')->where('id_vattu', $id)->delete();
+            $xvt = DB::table('tbl_xuat_vattu')->where('id_vattu', $id)->get();
+            foreach ($xvt as $x) {
+                DB::table('tbl_log_xuat_vattu')->where('id_xuat', $x->id)->delete();
+            }
+            DB::table('tbl_xuat_vattu')->where('id_vattu', $id)->delete();
             DB::table('tbl_vattu')->where('id', $id)->delete();
             Session::put('message', 'Xóa Thành Công');
         }
@@ -294,10 +306,15 @@ class HTXController extends Controller
         $user = DB::table('tbl_users')->where('username', $admin)->first();
         $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
         $check = DB::table('tbl_loai_vattu')->where('id',$id)->first();
+
         if( $check->id_htx != $htx->id  ){
             Session::put('message', 'Không thể xóa');
         }else{
+            $d = array();
+            $d['loai'] = 0;
+            DB::table('tbl_vattu')->where('loai', $id)->update($d);
             DB::table('tbl_loai_vattu')->where('id', $id)->delete();
+
             Session::put('message', 'Xóa Thành Công');
         }
 
@@ -323,7 +340,7 @@ class HTXController extends Controller
         $data['Email'] = isset($email) ? $email : '';
         $data['Website'] = isset($web) ? $web : '';
         $data['id_htx'] = $htx->id;
-        $check = DB::table('tbl_nccvt')->where('MaNCC', $mancc)->count();
+        $check = DB::table('tbl_nccvt')->where('MaNCC', $mancc)->where('id_htx', $htx->id)->count();
         if($check == 0){
             DB::table('tbl_nccvt')->insert($data);
             Session::put('message', 'Thêm Thành Công');
@@ -611,6 +628,219 @@ class HTXController extends Controller
         return redirect('xuat_giong');
 
     }
+    public function edit_member($id)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        $checks = DB::table('tbl_htx_member')->where('id_user', $id)->where('id_htx', $htx->id)->count();
+        if($user->role > 2){
+            Session::put('message', 'yêu cầu không hợp lệ');
+            return redirect('ds_member');
+        }else if($checks < 1){
+                Session::put('message', 'yêu cầu không hợp lệ');
+                return redirect('ds_member');
+            }else if($check < 1){
+                    Session::put('message', 'yêu cầu không hợp lệ');
+                    return redirect('ds_member');
+        }else{
+        $nd = DB::table('tbl_users')->where('id', $id)->first();
+        return view('htx.edit_member')->with('nd', $nd);
+        }
+
+    }
+
+    public function x_member($id)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        $checks = DB::table('tbl_htx_member')->where('id_user', $id)->where('id_htx', $htx->id)->count();
+        if($user->role > 2){
+            Session::put('message', 'yêu cầu không hợp lệ');
+            return redirect('ds_member');
+        }else if($checks < 1){
+                Session::put('message', 'yêu cầu không hợp lệ');
+                return redirect('ds_member');
+            }else if($check < 1){
+                    Session::put('message', 'yêu cầu không hợp lệ');
+                    return redirect('ds_member');
+        }else{
+            DB::table('tbl_htx_member')->where('id_user', $id)->delete();
+            Session::put('message', 'Xoá thành công');
+            return redirect('ds_member');
+        }
+    }
+
+    public function p_edit_member(Request $request)
+    {
+        $name = $request->ten;
+        $user = $request->user;
+        $pass = $request->pass;
+        $email = $request->email;
+        $sdt = $request->phone;
+        $id = $request->id;
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $users->id)->first();
+        $check = DB::table('tbl_users')->where('id', $id)->count();
+        $checks = DB::table('tbl_htx_member')->where('id_user', $id)->where('id_htx', $htx->id)->count();
+
+        if($users->role == 2){
+            if($checks > 0){
+        if($check > 0){
+            $data = array();
+            $data['name'] = $name;
+            $data['username'] = $user;
+            $data['email'] = $email;
+            $data['sdt'] = $sdt;
+            if($pass){
+                $data['password'] = md5($pass);
+            }
+            DB::table('tbl_users')->where('id', $id)->update($data);
+            Session::put('message', 'Cập nhật thành công');
+        }else{
+            Session::put('message', 'Không hợp lệ');
+
+        }
+    }else{
+        Session::put('message', 'Không hợp lệ');
+    }
+    }else{
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
+    }
+        return redirect('ds_member');
+    }
+    public function edit_ncc_vattu($id)
+    {
+
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $ncc = DB::table('tbl_nccvt')->where('id_htx', $htx->id)->first();
+        $check = DB::table('tbl_nccvt')->where('id', $id)->where('id_htx', $htx->id)->count();
+        if($check == 0 || ( $ncc->id_htx != $htx->id) ){
+            return redirect('htx_ncc_vattu');
+        }else{
+        return view('htx.edit_nccvt')->with('ncc', $ncc);
+        }
+    }
+
+    public function p_edit_ncc_vattu(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $mancc = $request->ma_ncc;
+        $tenncc = $request->ten_ncc;
+        $diachi = $request->diachi;
+        $sdt = $request->sdt;
+        $email = $request->email;
+        $web = $request->website;
+
+        $data = array();
+        $data['MaNCC'] = $mancc;
+        $data['TenNCC'] = $tenncc;
+        $data['DiaChi'] = isset($diachi) ? $diachi : '';
+        $data['SDT'] = isset($sdt) ? $sdt : '';
+        $data['Email'] = isset($email) ? $email : '';
+        $data['Website'] = isset($web) ? $web : '';
+        $data['id_htx'] = $htx->id;
+
+            DB::table('tbl_nccvt')->where('id', $request->id)->update($data);
+            Session::put('message', 'Cập Nhật Thành Công');
+
+        return redirect('htx_ncc_vattu');
+    }
+    public function x_htx_ncc_vattu($id)
+    {
+
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $check = DB::table('tbl_nccvt')->where('id', $id)->count();
+        $vt = DB::table('tbl_vattu')->where('id_ncc', $id)->get();
+        if($check > 0){
+            foreach ($vt as $v) {
+                $d = array();
+                $d['id_ncc'] = '0';
+                DB::table('tbl_vattu')->where('id_ncc', $v->id)->update($d);
+            }
+            DB::table('tbl_nccvt')->where('id', $id)->delete();
+            Session::put('message', 'Xóa thành công');
+        }
+
+        return redirect('htx_ncc_vattu');
+    }
+    public function edit_giong($id)
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $users->id)->first();
+        $checks = DB::table('tbl_giong')->where('id', $id)->where('id_htx', $htx->id)->count();
+        if($checks > 0){
+            $giong = DB::table('tbl_giong')->where('id', $id)->first();
+            return view('htx.edit_giong')->with('giong', $giong);
+        }else{
+            Session::put('message', 'Yêu cầu không hợp lệ');
+            return redirect('giong');
+        }
+
+    }
+
+    public function p_edit_giong(Request $request)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $ten = $request->ten;
+        $nguon_goc = $request->nguon_goc;
+        $don_gia = $request->don_gia;
+        $so_luong = $request->so_luong;
+
+        $check = DB::table('tbl_giong')->where('id', $request->id)->where('id_htx', $htx->id)->count();
+        if(isset($ten) && isset($nguon_goc) && isset($don_gia) && isset($so_luong) ){
+            if($check > 0){
+                $data = array();
+                $data['ten'] = $ten;
+                $data['nguon_goc'] = $nguon_goc;
+                $data['don_gia'] = $don_gia;
+                $data['so_luong'] = $so_luong;
+                DB::table('tbl_giong')->where('id', $request->id)->update($data);
+                Session::put('message', 'cập nhật thành công ');
+            }else{
+                Session::put('message', 'Không tồn tại');
+            }
+
+        }else{
+            Session::put('message', 'Vui lòng điền đủ thông tin');
+        }
+
+        return redirect('giong');
+    }
+    public function x_giong($id)
+    {
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $user->id)->first();
+        $check = DB::table('tbl_giong')->where('id',$id)->first();
+        if( $check->id_htx != $htx->id ){
+            Session::put('message', 'Không thể xóa');
+        }else{
+            DB::table('tbl_log_giong')->where('id_giong', $id)->delete();
+            $xvt = DB::table('tbl_xuat_giong')->where('id_giong', $id)->get();
+            foreach ($xvt as $x) {
+                DB::table('tbl_log_xuat_giong')->where('id_xuat', $x->id)->delete();
+            }
+            DB::table('tbl_xuat_giong')->where('id_giong', $id)->delete();
+            DB::table('tbl_giong')->where('id', $id)->delete();
+            Session::put('message', 'Xóa Thành Công');
+        }
+        return redirect('giong');
+    }
+
 
 
 }

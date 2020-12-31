@@ -70,7 +70,7 @@ Session::put('message', null);
                         <th>Tên vụ mùa</th>
                         <th>Bắt đầu</th>
                         <th> Kết thúc</th>
-                        <th>hành động</th>
+
                     </tr>
                 </thead>
 
@@ -81,9 +81,7 @@ Session::put('message', null);
                         <td>{{ $mv->ten }}</td>
                         <td>{{ date('d-m-Y', strtotime($mv->bat_dau))}}</td>
                         <td>{{ date('d-m-Y', strtotime($mv->ket_thuc))}}</td>
-                        <td>
-                            <a href="" class="btn btn-xs btn-success"> Kết thúc </a>
-                        </td>
+
 
 
                     </tr>

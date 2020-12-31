@@ -91,8 +91,8 @@
                         @else
                         <td>{{ (DB::table('tbl_htx')->where('id',$lvt->id_htx)->first())->ten }}</td>
                         @endif
-                        {{-- <td> <a class="btn-sm btn-danger" href="{{URL::to('del_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a> --}}
-                            {{-- </a></td> --}}
+                        {{-- <td> <a class="btn-sm btn-danger" href="{{URL::to('del_loai_vattu/'.$lvt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            </a></td> --}}
 
                     </tr>
                     @endforeach

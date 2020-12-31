@@ -55,7 +55,7 @@
                     <span class="icon-bar" style="background: white; "></span>
                     </button>
                     <div class="logo">
-                      <a href="index.html"><img src="{{ URL::to('public/assets/images/logo.png') }}">
+                      <a href="#"><img src="{{ URL::to('public/assets/images/logo.png') }}">
                        <span class="text-white">Nhật Ký </span></a>
                      </div>
                   </div>
@@ -82,7 +82,7 @@
                         </a>
                       </li>
                       <li class="treeview">
-                        <a href="index.html" class="waves-effect">
+                        <a href="#" class="waves-effect">
                         <i class="ti-package"></i> <span>Vật tư nông nghiệp</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -92,13 +92,24 @@
                         </ul>
                       </li>
                       <li class="treeview">
-                        <a href="index.html" class="waves-effect">
+                        <a href="{{ URL::to('ds_giong') }}" class="waves-effect">
+                        <i class="ti-package"></i> <span>Danh sách giống lúa</span>
+                        </a>
+                      </li>
+
+                      <li class="treeview">
+                        <a href="#" class="waves-effect">
                         <i class="icon-home"></i> <span>Hợp Tác Xã</span> <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                         <li><a href="{{URL::to('ds_htx')}}"><i class="fa fa-circle-o"></i> Danh sách</a></li>
                         <li><a href="{{URL::to('chu_nhiem')}}"><i class="fa fa-circle-o"></i>Chủ Nhiệm HTX </a></li>
                         </ul>
+                      </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('ds_nong_dan')}}" class="waves-effect">
+                        <i class="icon-user"></i> <span>Danh sách nông dân</span>
+                        </a>
                       </li>
 
 
