@@ -28,7 +28,7 @@ Session::put('message', null);
                 <?php
                 $vts = DB::table('tbl_vattu')->where('id', $vt->id_vattu)->first();
                 ?>
-                 <option value="{{$vt->id}}"> {{$vts->ten}}</option>
+                 <option value="{{$vts->id}}"> {{$vts->ten}}</option>
 
                  @endforeach
              </select>

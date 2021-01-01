@@ -74,7 +74,7 @@ class NongDanController extends Controller
         $vattu = $request->vattu;
         $ngay = $request->ngay;
         $so_luong = $request->so_luong;
-        $check = DB::table('tbl_xuat_vattu')->where('id', $vattu)->where('id_nongdan', $user)->first();
+        $check = DB::table('tbl_xuat_vattu')->where('id_vattu', $vattu)->where('id_nongdan', $user->id)->first();
         $sl = DB::table('tbl_log_vattu')->where('id_user', $user->id)->where('id_vattu', $vattu)->sum('so_luong');
 
 
@@ -85,7 +85,7 @@ class NongDanController extends Controller
                 }else{
                     $data = array();
                     $data['ngay'] = $ngay;
-                    $data['id_vattu'] = $check->id_vattu;
+                    $data['id_vattu'] = $vattu;
                     $data['id_user'] = $user->id;
                     $data['so_luong'] = $so_luong;
 
@@ -133,7 +133,7 @@ class NongDanController extends Controller
                 }else{
                     $data = array();
                     $data['ngay'] = $ngay;
-                    $data['id_giong'] = $check->id;
+                    $data['id_giong'] = $giong;
                     $data['id_user'] = $user->id;
                     $data['so_luong'] = $so_luong;
 

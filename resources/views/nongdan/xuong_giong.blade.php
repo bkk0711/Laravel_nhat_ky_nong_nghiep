@@ -114,7 +114,7 @@ Session::put('message', null);
             <tr>
                 <th>ID</th>
                 <th>Ngày sử dụng</th>
-                <th>Vật tư</th>
+                <th>Giống lúa</th>
                 <th>Số lượng</th>
 
             </tr>
