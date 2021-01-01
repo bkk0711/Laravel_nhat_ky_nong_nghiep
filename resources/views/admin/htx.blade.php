@@ -113,7 +113,7 @@
                     <td>{{$h->id}}</td>
                     <td>{{$h->ten}}</td>
                     <td>{{$h->ma_so_thue}}</td>
-                    @if ($chu_nhiem->where('id',$h->chu_nhiem)->first())->name)
+                    @if ($chu_nhiem->where('id',$h->chu_nhiem)->first()->name)
                     <td>{{($chu_nhiem->where('id',$h->chu_nhiem)->first())->name}}</td>
                     @else
                         <td>Chưa có chủ nhiệm</td>

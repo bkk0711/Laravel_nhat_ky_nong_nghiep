@@ -163,8 +163,9 @@
                         <td>{{ $vt->hdsd }}</td>
                         <td>{{ number_format($vt->don_gia) }} VNĐ</td>
                         <td>{{ number_format($vt->so_luong) }}</td>
-                    <td> <a class="btn btn-sm btn-danger" href="{{URL::to('xoa_vattu/'.$vt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                            <a class="btn btn-sm btn-warning" href="{{URL::to('htx_vattu/'.$vt->id)}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+                    <td> <a class="btn btn-xs btn-danger" href="{{URL::to('xoa_vattu/'.$vt->id)}}"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+
+                            <a class="btn btn-xs btn-warning" href="{{URL::to('htx_vattu/'.$vt->id)}}"><i class="fa fa-pencil-square" aria-hidden="true"></i>
                             </a></td>
 
                     </tr>
