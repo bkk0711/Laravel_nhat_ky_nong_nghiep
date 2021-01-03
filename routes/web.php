@@ -41,6 +41,12 @@ Route::post('ds_htx', [AdminController::class, 'p_htx']);
 Route::get('chu_nhiem', [AdminController::class, 'chu_nhiem']);
 Route::post('chu_nhiem', [AdminController::class, 'p_chu_nhiem']);
 
+Route::get('admin_info', [AdminController::class, 'admin_info']);
+Route::post('admin_info', [AdminController::class, 'p_admin_info']);
+Route::get('cn_info', [HTXController::class, 'cn_info']);
+Route::get('nd_info', [NongDanController::class, 'nd_info']);
+
+
 Route::get('edit_chu_nhiem/{id}', [AdminController::class, 'edit_chu_nhiem']);
 Route::get('x_chu_nhiem/{id}', [AdminController::class, 'x_chu_nhiem']);
 Route::post('edit_chu_nhiem', [AdminController::class, 'p_edit_chu_nhiem']);
@@ -56,6 +62,9 @@ Route::post('import_loai_vattu', [HTXController::class, 'import_loai_vattu']);
 Route::get('add_member', [HTXController::class, 'add_member']);
 Route::post('add_member', [HTXController::class, 'p_add_member']);
 Route::get('ds_member', [HTXController::class, 'ds_member']);
+
+Route::get('cn_htx', [HTXController::class, 'cn_htx']);
+Route::post('cn_htx', [HTXController::class, 'p_cn_htx']);
 
 Route::get('edit_member/{id}', [HTXController::class, 'edit_member']);
 Route::post('edit_member', [HTXController::class, 'p_edit_member']);
@@ -105,6 +114,7 @@ Route::post('lam_dat', [NongDanController::class, 'p_lam_dat']);
 
 Route::get('xuong_giong', [NongDanController::class, 'xuong_giong']);
 Route::post('xuong_giong', [NongDanController::class, 'p_xuong_giong']);
+Route::get('nd_htx', [NongDanController::class, 'nd_htx']);
 
 
 // Route::get('/nhan_vat_tu', [NongDanController::class, '']);

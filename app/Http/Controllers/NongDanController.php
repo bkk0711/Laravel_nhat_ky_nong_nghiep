@@ -150,6 +150,23 @@ class NongDanController extends Controller
         }
         return redirect('xuong_giong');
     }
+    public function nd_info()
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        return view('nongdan.info')->with('u', $users);
+
+
+    }
+    public function nd_htx()
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx_member')->where('id_user', $users->id)->get();
+        return view('nongdan.htx')->with('htx', $htx);
+
+
+    }
 
 
 

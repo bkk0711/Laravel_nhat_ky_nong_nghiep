@@ -309,8 +309,23 @@ class AdminController extends Controller
     }
     public function edit_chu_nhiem($id)
     {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
         $chu_nhiem = DB::table('tbl_users')->where('id', $id)->first();
+        if($users->role == 1){
+            if($chu_nhiem->role == 2 ){
         return view('admin.edit_chu_nhiem')->with('chu_nhiem', $chu_nhiem);
+    }else{
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
+        return redirect('chu_nhiem');
+
+    }
+    }else{
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
+        return redirect('chu_nhiem');
+
+    }
+
 
     }
     public function x_chu_nhiem($id)
@@ -345,7 +360,9 @@ class AdminController extends Controller
         $check = DB::table('tbl_users')->where('id', $id)->count();
         $admin = Session::get('admin');
         $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $cn = DB::table('tbl_users')->where('id', $id)->first();
         if($users->role == 1){
+            if($cn->role == 2){
         if($check > 0){
             $data = array();
             $data['name'] = $name;
@@ -362,7 +379,10 @@ class AdminController extends Controller
 
         }
     }else{
-        Session::put('message', 'bạn không có quyền chỉnh sửa');
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
+    }
+    }else{
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
     }
         return redirect('chu_nhiem');
     }
@@ -374,8 +394,23 @@ class AdminController extends Controller
     }
     public function edit_nong_dan($id)
     {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
         $nd = DB::table('tbl_users')->where('id', $id)->first();
+        if($users->role == 1){
+            if($nd->role == 3){
         return view('admin.edit_nong_dan')->with('nd', $nd);
+    }else{
+
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
+        return redirect('ds_nong_dan');
+    }
+    }else{
+
+        Session::put('message', 'Bạn không có quyền chỉnh sửa');
+        return redirect('ds_nong_dan');
+    }
+
 
     }
     public function x_nong_dan($id)
@@ -408,7 +443,9 @@ class AdminController extends Controller
         $check = DB::table('tbl_users')->where('id', $id)->count();
         $admin = Session::get('admin');
         $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $nd = DB::table('tbl_users')->where('id', $id)->first();
         if($users->role == 1){
+            if($nd->role == 3){
         if($check > 0){
             $data = array();
             $data['name'] = $name;
@@ -427,6 +464,9 @@ class AdminController extends Controller
     }else{
         Session::put('message', 'bạn không có quyền chỉnh sửa');
     }
+    }else{
+        Session::put('message', 'bạn không có quyền chỉnh sửa');
+    }
         return redirect('ds_nong_dan');
     }
 
@@ -434,6 +474,52 @@ class AdminController extends Controller
     {
         $giong = DB::table('tbl_giong')->get();
         return view('admin.ds_giong')->with('giong', $giong);
+
+    }
+
+    public function admin_info()
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        return view('admin.info')->with('u', $users);
+
+
+    }
+
+    public function p_admin_info(Request $request)
+    {
+        $name = $request->ten;
+        $pass = $request->pass;
+        $email = $request->email;
+        $sdt = $request->phone;
+        $admin = Session::get('admin');
+        $user = DB::table('tbl_users')->where('username', $admin)->first();
+            $data = array();
+            if($name){
+                $data['name'] = $name;
+            }
+            if($email){
+                $data['email'] = $email;
+            }
+            if($sdt){
+                $data['sdt'] = $sdt;
+            }
+            if($pass){
+                $data['password'] = md5($pass);
+            }
+            if($data){
+            DB::table('tbl_users')->where('username', $admin)->update($data);
+            Session::put('message', 'Cập nhật thành công');
+            }
+            if($user->role == 1){
+                return redirect('admin_info');
+               }else if($user->role == 2){
+                return redirect('cn_info');
+               }else if($user->role == 3){
+                return redirect('nd_info');
+               }else{
+                return redirect('/');
+               }
 
     }
 

@@ -111,6 +111,11 @@
                         <i class="icon-user"></i> <span>Danh sách nông dân</span>
                         </a>
                       </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('admin_info')}}" class="waves-effect">
+                        <i class="icon-user"></i> <span>Cập nhật thông tin</span>
+                        </a>
+                      </li>
 
 
                     </ul>

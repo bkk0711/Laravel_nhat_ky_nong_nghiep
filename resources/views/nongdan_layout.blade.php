@@ -100,6 +100,11 @@
                         </a>
                       </li>
                       <li class="treeview">
+                        <a href="{{URL::to('nd_htx')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span> Danh sách HTX</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
                         <a href="{{URL::to('lam_dat')}}" class="waves-effect">
                         <i class="fa fa-book"></i> <span>Nhật ký làm đất</span>
                         </a>
@@ -117,6 +122,11 @@
                       <li class="treeview">
                         <a href="{{URL::to('su_dung_vat_tu')}}" class="waves-effect">
                         <i class="fa fa-book"></i> <span>Nhật ký sử dụng vật tư</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('nd_info')}}" class="waves-effect">
+                        <i class="icon-user"></i> <span>Cập nhật thông tin</span>
                         </a>
                       </li>
 

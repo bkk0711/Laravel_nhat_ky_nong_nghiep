@@ -135,6 +135,17 @@
                         <i class="fa fa-book"></i> <span>Quản lý mùa vụ</span>
                         </a>
                       </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('cn_htx')}}" class="waves-effect">
+                        <i class="icon-user"></i> <span>Cập nhật HTX</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
+                        <a href="{{URL::to('cn_info')}}" class="waves-effect">
+                        <i class="icon-user"></i> <span>Cập nhật thông tin</span>
+                        </a>
+                      </li>
+
 
 
                       {{-- <li class="treeview">

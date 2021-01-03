@@ -840,7 +840,51 @@ class HTXController extends Controller
         }
         return redirect('giong');
     }
+    public function cn_info()
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        return view('htx.info')->with('u', $users);
 
+
+    }
+    public function cn_htx()
+    {
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $users->id)->first();
+        return view('htx.edit_htx')->with('htx', $htx);
+
+
+    }
+    public function p_cn_htx(Request $request)
+    {
+        $ten = $request->ten;
+        $mst = $request->mst;
+        $diachi = $request->diachi;
+        $sdt = $request->phone;
+        $admin = Session::get('admin');
+        $users = DB::table('tbl_users')->where('username', $admin)->first();
+        $htx = DB::table('tbl_htx')->where('chu_nhiem', $users->id)->first();
+        if($ten != '' && $mst != ''){
+            $data = array();
+            $data['ten'] = $ten;
+            $data['ma_so_thue'] = $mst;
+            if($diachi){
+                $data['dia_chi'] = $diachi;
+            }
+            if($sdt){
+                $data['so_dien_thoai'] = $sdt;
+            }
+                DB::table('tbl_htx')->where('id', $htx->id)->update($data);
+                Session::put('message', 'Thông tin được cập nhật thành công');
+
+        }else{
+            Session::put('message', 'Vui lòng điền đầy đủ thông tin');
+        }
+        return redirect('cn_htx');
+
+    }
 
 
 }
