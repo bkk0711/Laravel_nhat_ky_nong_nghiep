@@ -105,6 +105,11 @@
                         </a>
                       </li>
                       <li class="treeview">
+                        <a href="{{URL::to('nd_thua')}}" class="waves-effect">
+                        <i class="fa fa-book"></i> <span> Quản lý thửa</span>
+                        </a>
+                      </li>
+                      <li class="treeview">
                         <a href="{{URL::to('lam_dat')}}" class="waves-effect">
                         <i class="fa fa-book"></i> <span>Nhật ký làm đất</span>
                         </a>

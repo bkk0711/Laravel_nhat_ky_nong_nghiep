@@ -44,7 +44,16 @@ Session::put('message', null);
             <input type="number" name="so_luong" id="" min="1" class="form-control">
             </div>
         </div>
-
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Thửa</label>
+            <div class="col-sm-9">
+              <select name="thua" id="" class="form-control">
+                  @foreach ($thua as $t)
+                   <option value="{{$t->id}}">{{$t->ten}}</option>
+                  @endforeach
+              </select>
+            </div>
+        </div>
 
         <div class="form-footer">
 
@@ -116,6 +125,7 @@ Session::put('message', null);
                 <th>Ngày sử dụng</th>
                 <th>Giống lúa</th>
                 <th>Số lượng</th>
+                <th>Thửa</th>
 
             </tr>
         </thead>
@@ -126,11 +136,17 @@ Session::put('message', null);
             @foreach ($giong as $g)
             <?php
              $gs = DB::table('tbl_giong')->where('id', $g->id_giong)->first();
+             $t = DB::table('tbl_thua')->where('id', $g->id_thua)->first();
             ?>
             <td>{{$i+=1}}</td>
             <td>{{date('d-m-Y', strtotime($g->ngay))}}</td>
             <td>{{$gs->ten}}</td>
             <td>{{number_format($g->so_luong)}}</td>
+            @if ($t)
+            <td>{{$t->ten}}</td>
+            @else
+                <td>Không xác định</td>
+            @endif
         </tr>
             @endforeach
 

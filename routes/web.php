@@ -116,6 +116,11 @@ Route::get('xuong_giong', [NongDanController::class, 'xuong_giong']);
 Route::post('xuong_giong', [NongDanController::class, 'p_xuong_giong']);
 Route::get('nd_htx', [NongDanController::class, 'nd_htx']);
 
+Route::get('nd_thua', [NongDanController::class, 'thua']);
+Route::post('nd_thua', [NongDanController::class, 'p_thua']);
+Route::get('e_thua/{id}', [NongDanController::class, 'e_thua']);
+Route::get('x_thua/{id}', [NongDanController::class, 'x_thua']);
+Route::post('e_thua', [NongDanController::class, 'p_e_thua']);
 
 // Route::get('/nhan_vat_tu', [NongDanController::class, '']);
 

@@ -26,6 +26,17 @@ Session::put('message', null);
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label">Thửa</label>
+            <div class="col-sm-9">
+              <select name="thua" id="" class="form-control">
+                  @foreach ($thua as $t)
+                   <option value="{{$t->id}}">{{$t->ten}}</option>
+                  @endforeach
+              </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-sm-3 control-label">Note</label>
             <div class="col-sm-9">
              <textarea name="note" id="" cols="30" rows="2" class="form-control"></textarea>
@@ -52,6 +63,7 @@ Session::put('message', null);
             <tr>
                 <th>ID</th>
                 <th>Ngày</th>
+                <th>Thửa</th>
                 <th>Ghi chú</th>
 
             </tr>
@@ -60,9 +72,18 @@ Session::put('message', null);
         <tbody>
             <?php $i=0?>
             @foreach ($lamdat as $ld)
+            <?php
+            $t = DB::table('tbl_thua')->where('id', $ld->id_thua)->first();
+            ?>
             <tr>
                 <td>{{$i +=1}}</td>
                 <td>{{date('d-m-Y', strtotime($ld->ngay))}}</td>
+                @if ($t)
+                <td>{{$t->ten}}</td>
+                @else
+                    <td>Không xác định</td>
+                @endif
+
                 <td>{{$ld->note}}</td>
 
             </tr>

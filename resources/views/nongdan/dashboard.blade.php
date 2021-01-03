@@ -165,9 +165,17 @@
                 $sql = DB::table('tbl_log_lamdat')->where('id_user', $user)->offset(0)->limit(10)->get();
                 ?>
                 @foreach ($sql as $s)
+                <?php
+                $t = DB::table('tbl_thua')->where('id', $s->id_thua)->first();
+                if($t){
+                    $ten =$t->ten;
+                }else{
+                    $ten = "...";
+                }
+                ?>
                 <div class="alert alert-border-default alert-dismissible fade in">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                   Ngày <strong>{{date('d-m-Y',strtotime($s->ngay))}} </strong>bạn vừa làm đất với ghi chú : <i>"{{$s->note}} "</i>
+                   Ngày <strong>{{date('d-m-Y',strtotime($s->ngay))}} </strong>bạn vừa làm đất ở <strong>{{$ten}}</strong> với ghi chú : <i>"{{$s->note}} "</i>
                 </div>
                 @endforeach
 
@@ -274,10 +282,18 @@
             @foreach ($sql as $s)
             <?php
             $vt = DB::table('tbl_giong')->where('id', $s->id_giong)->first();
-            ?>
+
+                $t = DB::table('tbl_thua')->where('id', $s->id_thua)->first();
+                if($t){
+                    $ten =$t->ten;
+                }else{
+                    $ten = "...";
+                }
+                ?>
+
             <div class="alert alert-border-default alert-dismissible fade in">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-               Bạn đã dùng  <i>"{{$s->so_luong}}" Kg</i>giống lúa<strong> {{$vt->ten}} </strong> vào ngày <strong>{{date('d-m-Y',strtotime($s->ngay))}} </strong>
+               Bạn đã dùng  <i>"{{$s->so_luong}}" Kg</i>giống lúa<strong> {{$vt->ten}} </strong> ở <strong>{{$ten}}</strong> vào ngày <strong>{{date('d-m-Y',strtotime($s->ngay))}} </strong>
 
             </div>
             @endforeach  </div>

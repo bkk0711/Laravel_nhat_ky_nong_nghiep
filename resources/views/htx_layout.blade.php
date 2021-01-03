@@ -150,7 +150,7 @@
 
                       {{-- <li class="treeview">
                         <a href="{{URL::to('thua')}}" class="waves-effect">
-                        <i class="fa fa-book"></i> <span>Quản lý thừa</span>
+                        <i class="fa fa-book"></i> <span>Quản lý thửa</span>
                         </a>
                       </li> --}}
 
